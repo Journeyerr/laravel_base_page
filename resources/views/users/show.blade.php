@@ -1,6 +1,6 @@
 @extends('layouts.default')
 
-@section('title','用户列表')
+@section('title','个人中心')
 
 @section('content')
     <div class="row">
