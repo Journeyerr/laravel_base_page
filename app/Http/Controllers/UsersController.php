@@ -8,7 +8,14 @@ use Illuminate\Support\Facades\DB;
 
 class UsersController extends Controller
 {
-    //用户列表
+    public function __construct()
+    {
+        $this->middleware('auth', [
+            'except' => ['shwo','create','store']
+        ]);
+    }
+
+    //个人中心
     public function show(User $user)
     {
         return view('users.show', compact('user'));
@@ -40,5 +47,28 @@ class UsersController extends Controller
         return redirect()->route('users.show', [$user]);
     }
 
+    //用户编辑页面
+    public function edit(User $user)
+    {
+        return view('users.edit', compact('user'));
 
+    }
+
+    //用户编辑请求
+    public function update(User $user, Request $request)
+    {
+        $this->validate($request, [
+            'name' => 'required|max:50|min:2',
+            'password' => 'nullable|confirmed|min:6'
+        ]);
+
+        $data['name'] = $request->name;
+        if($request->password){
+            $data['password'] = bcrypt($this->password);
+        }
+
+        $user->update($data);
+
+        return redirect()->route('users.show', [$user]);
+    }
 }
