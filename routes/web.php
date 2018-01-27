@@ -21,3 +21,5 @@ Route::get('user', 'UsersController@create')->name('signup'); //显示登录页�
 Route::get('login', 'SessionController@create')->name('login'); //显示登录页面
 Route::post('login', 'SessionController@store')->name('login'); //登录验证
 Route::delete('logout', 'SessionController@destore')->name('logout');   //注销登录
+
+Route::get('signup/confirm/{token}', 'UsersController@checkConfirEmail')->name('confirm_email');   //激活邮件验证
