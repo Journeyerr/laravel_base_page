@@ -6,7 +6,7 @@
     <div class="jumbotron">
         <h1>ZAHANG AN YUAN </h1>
         <p class="lead">
-            你现在所看到的是 <a href="http://www.echophp.top"> 我 </a>  Laravel 的学习之路。
+            看到的是我 <a href="http://www.echophp.top"> Laravel </a>   的学习之路。
         </p>
         <p>
             一切，将从这里开始。
