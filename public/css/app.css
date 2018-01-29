@@ -8430,6 +8430,7 @@ footer {
   color: #777;
   /* sidebar */
   /* forms */
+  /* statuses */
 }
 
 footer a {
@@ -8555,5 +8556,58 @@ footer .delete-btn {
   float: right;
   position: relative;
   right: 0;
+}
+
+footer .statuses {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+}
+
+footer .statuses li {
+  padding: 10px 0;
+  border-top: 1px solid #e8e8e8;
+  position: relative;
+}
+
+footer .statuses .user {
+  margin-top: 5em;
+  padding-top: 0;
+}
+
+footer .statuses .content {
+  display: block;
+  margin-left: 60px;
+}
+
+footer .statuses .content img {
+  display: block;
+  padding: 5px 0;
+}
+
+footer .statuses .timestamp {
+  color: #777777;
+  display: block;
+  margin-left: 60px;
+}
+
+footer .statuses .gravatar {
+  margin-right: 10px;
+  margin-top: 5px;
+}
+
+footer .statuses form button.status-delete-btn {
+  position: absolute;
+  right: 0;
+  top: 10px;
+}
+
+footer aside textarea {
+  height: 100px;
+  margin-bottom: 5px;
+}
+
+footer .status_form {
+  margin-top: 20px;
 }
 

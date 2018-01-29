@@ -42,4 +42,13 @@ class User extends Authenticatable
         $this->notify(new ResetPassword($token));
     }
 
+    /**指明一个用户拥有多条微博。
+     * @return array
+     */
+    public function statuses()
+    {
+
+        return $this->hasMany(Status::class);
+    }
+
 }

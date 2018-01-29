@@ -14,7 +14,7 @@ class UsersController extends Controller
     {
         //数组内的，未登录用户访问
         $this->middleware('auth', [
-            'except' => ['shwo', 'create', 'store', 'index', 'checkConfirEmail']
+            'except' => [ 'show', 'create', 'store', 'index', 'checkConfirEmail' ]
         ]);
 
         //数组内的，登录用户 不能访问
@@ -23,6 +23,7 @@ class UsersController extends Controller
         ]);
     }
 
+    //用户列表
     public function index(User $user)
     {
         $users = $user::paginate(10);
@@ -32,7 +33,9 @@ class UsersController extends Controller
     //个人中心
     public function show(User $user)
     {
-        return view('users.show', compact('user'));
+        $statuses = $user->statuses()->orderBy('id','desc')->paginate(10);
+
+        return view('users.show', compact('user', 'statuses'));
     }
 
     //注册页面
