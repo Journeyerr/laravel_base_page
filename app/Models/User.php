@@ -35,13 +35,15 @@ class User extends Authenticatable
         return "http://www.gravatar.com/avatar/$hash?s=$size";
     }
 
-    //发送定制重置密码邮件
+    /*发送定制重置密码邮件
+     * @return string
+     */
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new ResetPassword($token));
     }
 
-    /**指明一个用户拥有多条微博 返回该用户所有动态。
+    /*指明一个用户拥有多条微博 返回该用户所有动态。
      * @return array
      */
     public function statuses()
@@ -49,13 +51,68 @@ class User extends Authenticatable
         return $this->hasMany(Status::class);
     }
 
-    /**该方法将当前用户发布过的所有微博从数据库中取出，并根据创建时间来倒序排序。
+    /*将当前用户发布过的所有微博从数据库中取出，并根据创建时间来倒序排序。
      * 将使用该方法来获取当前用户关注的人发布过的所有微博动态
      * @return array
      */
     public function feed()
     {
-        return $this->statuses()->orderBy('created_at', 'desc');
+        return $this->statuses()->orderBy('id', 'desc');
     }
+
+
+    /* follower_id  是关注者id
+    * user_id      是被关注者id
+    * 以第四个参数，去查第三个参数
+    */
+
+    /*  belongsToMany 来关联模型之间的多对多关系
+     *  获取 我的关注
+     */
+    public function followers()
+    {
+        return $this->belongsToMany(User::Class, 'followers', 'user_id', 'follower_id');
+    }
+
+    /*
+     *获取关注我的
+     */
+    public function followerings()
+    {
+        return $this->belongsToMany(User::Class, 'followers', 'follower_id', 'user_id');
+    }
+
+    /*
+     * 关注操作
+     * sync 方法会接收两个参数
+     * 第一个参数为要进行添加的 id
+     * 第二个参数则指明是否要移除其它不包含在关联的 id 数组中的 id，
+     * true 表示移除，false 表示不移除，默认值为 true
+     */
+    public function follow($user_ids)
+    {
+        if(!array($user_ids)){
+            $user_ids = compact($user_ids);
+        }
+
+        $this->followings()->sync($user_ids, false);
+    }
+
+
+    public function unfollow($user_ids)
+    {
+        if (!is_array($user_ids)) {
+            $user_ids = compact('user_ids');
+        }
+        $this->followings()->detach($user_ids);
+    }
+
+    //判断当前用户的列表上是否包含传递进来的用户id
+    public function isFollowing($user_id)
+    {
+        return $this->followings()->contains($user_id);
+    }
+
+
 
 }
