@@ -12,7 +12,6 @@ class User extends Authenticatable
 
     /**
      * The attributes that are mass assignable.
-     *
      * @var array
      */
     protected $fillable = [
@@ -42,13 +41,21 @@ class User extends Authenticatable
         $this->notify(new ResetPassword($token));
     }
 
-    /**指明一个用户拥有多条微博。
+    /**指明一个用户拥有多条微博 返回该用户所有动态。
      * @return array
      */
     public function statuses()
     {
-
         return $this->hasMany(Status::class);
+    }
+
+    /**该方法将当前用户发布过的所有微博从数据库中取出，并根据创建时间来倒序排序。
+     * 将使用该方法来获取当前用户关注的人发布过的所有微博动态
+     * @return array
+     */
+    public function feed()
+    {
+        return $this->statuses()->orderBy('created_at', 'desc');
     }
 
 }

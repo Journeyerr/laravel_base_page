@@ -28,3 +28,6 @@ Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm'
 Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');      //发送邮件
 Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');     //设置新密码页面
 Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.update');                   //执行设置新密码
+
+//微博相关功能    only 指定只需要的操作路由
+Route::resource('statuses','StatusesController', ['only'=>['store', 'destroy']]);
