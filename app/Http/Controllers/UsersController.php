@@ -149,6 +149,7 @@ class UsersController extends Controller
         return view('users.show_follow', compact('users', 'title'));
     }
 
+    //关注动作
     public function followersStore(User $user)
     {
         if(Auth::user()->id === $user->id){
@@ -162,6 +163,7 @@ class UsersController extends Controller
         return redirect()->route('users.show', $user->id);
     }
 
+    //取消关注动作
     public function followersDestroy(User $user)
     {
         if (Auth::user()->id === $user->id) {
