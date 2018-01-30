@@ -34,7 +34,6 @@ class UsersController extends Controller
     public function show(User $user)
     {
         $statuses = $user->statuses()->orderBy('id','desc')->paginate(10);
-
         return view('users.show', compact('user', 'statuses'));
     }
 
@@ -137,7 +136,7 @@ class UsersController extends Controller
     //用户关注
     public function followings(User $user)
     {
-        $users = $user->followerings()->paginate(20);
+        $users = $user->isFollowing()->paginate(20);
         $title = '关注的人';
         return view('users.show_follow', compact('users', 'title'));
     }
@@ -148,5 +147,31 @@ class UsersController extends Controller
         $users = $user->followers()->paginate(20);
         $title = '粉丝列表';
         return view('users.show_follow', compact('users', 'title'));
+    }
+
+    public function followersStore(User $user)
+    {
+        if(Auth::user()->id === $user->id){
+            return redirect('/');
+        }
+
+        if(!Auth::user()->isFollowing($user->id)){
+            Auth::user()->follow($user->id);
+        }
+
+        return redirect()->route('users.show', $user->id);
+    }
+
+    public function followersDestroy(User $user)
+    {
+        if (Auth::user()->id === $user->id) {
+            return redirect('/');
+        }
+
+        if (Auth::user()->isFollowing($user->id)) {
+            Auth::user()->unfollow($user->id);
+        }
+
+        return redirect()->route('users.show', $user->id);
     }
 }

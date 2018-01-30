@@ -34,3 +34,6 @@ Route::resource('statuses','StatusesController', ['only'=>['store', 'destroy']])
 
 Route::get('users/{user}/followings', 'UsersController@followings')->name('users.followings'); //用户的关注
 Route::get('users/{user}/followers', 'UsersController@followers')->name('users.followers');    //用户粉丝列表
+
+Route::post('/users/followers/{user}', 'UsersController@followersStore')->name('followers.store');   //关注用户
+Route::delete('/users/followers/{user}', 'UsersController@followersDestroy')->name('followers.destroy'); //取消关注

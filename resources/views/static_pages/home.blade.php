@@ -30,10 +30,38 @@
                     </ol>
                 @endif
             </div>
+
             <aside class="col-md-4">
+                {{--用户信息--}}
                 <section class="user_info">
                     @include('shared.user_info', ['user' => Auth::user()])
                 </section>
+                {{--用户信息end--}}
+
+                {{--粉丝关系统计--}}
+                <section class="stats" style="margin-left: 28%;">
+                    <div class="stats">
+                        <a href="{{ route('users.followings', $user->id) }}">
+                            <strong id="following" class="stat">
+                                {{ count($user->followerings) }}
+                            </strong>
+                            关注
+                        </a>
+                        <a href="{{ route('users.followers', $user->id) }}">
+                            <strong id="followers" class="stat">
+                                {{ count($user->followers) }}
+                            </strong>
+                            粉丝
+                        </a>
+                        <a href="{{ route('users.show', $user->id) }}">
+                            <strong id="statuses" class="stat">
+                                {{ $user->statuses()->count() }}
+                            </strong>
+                            微博
+                        </a>
+                    </div>
+                </section>
+                {{--粉丝关系统计end--}}
             </aside>
         </div>
 

@@ -67,7 +67,8 @@ class User extends Authenticatable
     */
 
     /*  belongsToMany 来关联模型之间的多对多关系
-     *  获取 我的关注
+     *  获取 粉丝列表
+     * follower_id 是关注者的id，user_id 是被关注用户id
      */
     public function followers()
     {
@@ -75,9 +76,9 @@ class User extends Authenticatable
     }
 
     /*
-     *获取关注我的
+     *获取 我的关注   user_id
      */
-    public function followerings()
+    public function followings()
     {
         return $this->belongsToMany(User::Class, 'followers', 'follower_id', 'user_id');
     }
@@ -98,19 +99,20 @@ class User extends Authenticatable
         $this->followings()->sync($user_ids, false);
     }
 
-
+    //取消关注
     public function unfollow($user_ids)
     {
         if (!is_array($user_ids)) {
             $user_ids = compact('user_ids');
         }
+        //判断我的关注中是否有这个user_id 有不做操作，没有就添加一条
         $this->followings()->detach($user_ids);
     }
 
     //判断当前用户的列表上是否包含传递进来的用户id
     public function isFollowing($user_id)
     {
-        return $this->followings()->contains($user_id);
+        return $this->followings->contains($user_id);
     }
 
 
